@@ -1,17 +1,12 @@
-const response = require("../../../network/response.js");
-const express = require('express');
-const { getConnection } = require('../../../model/db');
-const { request } = require("express");
-const { route } = require("express/lib/application");
-const { get } = require("express/lib/request");
-const { Pool } = require("pg/lib");
+import { success as _success } from "../../../network/response.js";
+import { Router } from 'express';
+import  getConnection  from '../../../model/db.js';
 
-
-const router = express.Router();
+const router = Router();
 
 router.get('/', function (req, res) {
 
-    response.success(req, res, '', 200);
+    _success(req, res, '', 200);
 });
 
 router.post('/login', function (req, res) {
@@ -60,8 +55,8 @@ router.post('/register', async function (req, res) {
     console.log("Yes");
 
     client.query(query_request)
-        .then(r => { response.success(req, res, r, 200) })
-        .catch(e => { response.success(req, res, e.detail, 200) });
+        .then(r => { _success(req, res, r, 200) })
+        .catch(e => { _success(req, res, e.detail, 200) });
 });
 
 router.delete('/delete', async function(req, res){
@@ -76,8 +71,8 @@ router.delete('/delete', async function(req, res){
     }
 
     client.query(query_request)
-    .then(r => { response.success(req, res, r, 200) })
-    .catch(e => { response.success(req, res, e.detail, 200) });
+    .then(r => { _success(req, res, r, 200) })
+    .catch(e => { _success(req, res, e.detail, 200) });
 });
 
 router.put('/updateAll', async function(req, res){
@@ -95,8 +90,8 @@ router.put('/updateAll', async function(req, res){
     }
 
     client.query(query_request)
-    .then(r => { response.success(req, res, r, 200) })
-    .catch(e => { response.success(req, res, e.detail, 200) });
+    .then(r => { _success(req, res, r, 200) })
+    .catch(e => { _success(req, res, e.detail, 200) });
 
 });
 
@@ -112,8 +107,8 @@ router.patch('/updateUser', async function(req, res){
     }
 
     client.query(query_request)
-    .then(r => { response.success(req, res, r, 200) })
-    .catch(e => { response.success(req, res, e.detail, 200) });
+    .then(r => { _success(req, res, r, 200) })
+    .catch(e => { _success(req, res, e.detail, 200) });
 });
 
 router.patch('/updateEmail', async function(req, res){
@@ -128,8 +123,8 @@ router.patch('/updateEmail', async function(req, res){
     }
 
     client.query(query_request)
-    .then(r => { response.success(req, res, r, 200) })
-    .catch(e => { response.success(req, res, e.detail, 200) });
+    .then(r => { _success(req, res, r, 200) })
+    .catch(e => { _success(req, res, e.detail, 200) });
 });
 
 router.patch('/updatePassword', async function(req, res){
@@ -144,8 +139,8 @@ router.patch('/updatePassword', async function(req, res){
     }
 
     client.query(query_request)
-    .then(r => { response.success(req, res, r, 200) })
-    .catch(e => { response.success(req, res, e.detail, 200) });
+    .then(r => { _success(req, res, r, 200) })
+    .catch(e => { _success(req, res, e.detail, 200) });
 });
 
 router.patch('/updatePhone', async function(req, res){
@@ -160,8 +155,8 @@ router.patch('/updatePhone', async function(req, res){
     }
 
     client.query(query_request)
-    .then(r => { response.success(req, res, r, 200) })
-    .catch(e => { response.success(req, res, e.detail, 200) });
+    .then(r => { _success(req, res, r, 200) })
+    .catch(e => { _success(req, res, e.detail, 200) });
 });
 
-module.exports = router;
+export default router;
