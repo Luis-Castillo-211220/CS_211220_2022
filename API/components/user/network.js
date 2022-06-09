@@ -1,6 +1,7 @@
 import { success as _success } from "../../../network/response.js";
 import { Router } from 'express';
-import  getConnection  from '../../../model/db.js';
+import  { getData} from '../../../model/db.js';
+import { getUser } from "../../../model/Users.js";
 
 const router = Router();
 
@@ -24,14 +25,13 @@ router.post('/login', function (req, res) {
 });
 
 router.get('/readme', async function(req, res){
-    const client = await getConnection();
+    const client = await getData();
 
     const query_request = {
         text: 'SELECT * FROM tbl_usersdb'
     }
 
     client.query(query_request, (err, result) => {
-        //if(err) throw err;
         res.send(result.rows); 
      });
 
@@ -40,7 +40,7 @@ router.get('/readme', async function(req, res){
 
 router.post('/register', async function (req, res) {
     // Realiza la conexion a db
-    const client = await getConnection();
+    const client = await getData();
 
     let username = req.query.username;
     let email = req.query.email;
@@ -60,7 +60,7 @@ router.post('/register', async function (req, res) {
 });
 
 router.delete('/delete', async function(req, res){
-    const client = await getConnection();
+    const client = await getData();
     
     let id = req.query.id;
     console.log("id: " + req.query.id);
@@ -76,7 +76,7 @@ router.delete('/delete', async function(req, res){
 });
 
 router.put('/updateAll', async function(req, res){
-    const client = await getConnection();
+    const client = await getData();
 
     let id = req.query.id;
     let username = req.query.username;
@@ -96,7 +96,7 @@ router.put('/updateAll', async function(req, res){
 });
 
 router.patch('/updateUser', async function(req, res){
-    const client = await getConnection();
+    const client = await getData();
 
     let id = req.query.id;
     let username = req.query.username;
@@ -112,7 +112,7 @@ router.patch('/updateUser', async function(req, res){
 });
 
 router.patch('/updateEmail', async function(req, res){
-    const client = await getConnection();
+    const client = await getData();
 
     let id = req.query.id;
     let email = req.query.email;
@@ -128,7 +128,7 @@ router.patch('/updateEmail', async function(req, res){
 });
 
 router.patch('/updatePassword', async function(req, res){
-    const client = await getConnection();
+    const client = await getData();
 
     let id = req.query.id;
     let password = req.query.password;
@@ -144,7 +144,7 @@ router.patch('/updatePassword', async function(req, res){
 });
 
 router.patch('/updatePhone', async function(req, res){
-    const client = await getConnection();
+    const client = await getData();
 
     let id = req.query.id;
     let phone_number = req.query.phone_number;
@@ -158,5 +158,78 @@ router.patch('/updatePhone', async function(req, res){
     .then(r => { _success(req, res, r, 200) })
     .catch(e => { _success(req, res, e.detail, 200) });
 });
+
+router.get('/all_users_orm', async function(req, res){
+    getUser.findAll({ attributes: ['username', 'email', 'password', 'phone_number']})
+        .then(users =>{
+            res.send(users);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+});
+
+
+
+router.get('/all_users_orm', async function(req, res){
+    getUsers.findAll({attributes: ['id','username', 'email', 'password', 'phone_number']})
+    .then(users =>{
+      res.send(users)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  });
+
+  router.delete('/delete_user_orm', async function(req, res){
+  let id = req.query.id;
+  console.log("id:" + req.query.id);
+   getUsers.destroy({
+    where: {
+      id: id
+    }
+  })
+      .then((r) => {
+        _success(req, res, r, 200);
+      })
+      .catch((e) => {
+        _success(req, res, e, 200);
+      });
+  });
+  
+
+  router.put('/update_user_orm', async function(req,res){
+    let id= req.query.id;
+    let newDatas=req.query;
+    getUsers.findOne({where:{id:id}})
+    .then((r) => {
+      r.update(newDatas)
+      _success(req, res, r, 200);
+      console.log('simon')
+    })
+    .catch((e) => {
+      _success(req, res, e, 400);
+      console.log('mal')
+    });
+  })
+  
+  router.post('/register_user_orm',async function(req,res){
+    getUsers.create({
+      id: req.query.id,
+    username: req.query.username,
+    email:req.query.email,
+     password:req.query.password,
+     phone_number: req.query.phone_number
+  
+    })    .then((r) => {
+      _success(req, res, r, 200);
+      console.log('simon')
+    })
+    .catch((e) => {
+      _success(req, res, e, 400);
+    });
+  
+    })
+
 
 export default router;
