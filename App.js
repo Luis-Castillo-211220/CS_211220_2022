@@ -1,8 +1,8 @@
 
 import express from 'express';
 // import { status } from 'express/lib/response';
-import { api } from '../config.js';
-import user from './components/user/network.js';
+import { api } from './config.js';
+import user from './API/components/user/network.js';
 
 const app = express();
 

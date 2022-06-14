@@ -2,11 +2,11 @@
   "name": "cs_211220_22",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "App.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./API/index.js"
+    "start": "nodemon App.js"
   },
   "author": "Luis 211220",
   "license": "ISC",
@@ -17,5 +17,11 @@
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.20.1",
     "socket.io": "^4.5.0"
+  },
+  "engines": {
+    "node": "^16.14.0"
+  },
+  "devDependencies": {
+    "babel-register":"^6.26.0"
   }
 }

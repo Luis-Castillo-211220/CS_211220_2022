@@ -159,20 +159,9 @@ router.patch('/updatePhone', async function(req, res){
     .catch(e => { _success(req, res, e.detail, 200) });
 });
 
-router.get('/all_users_orm', async function(req, res){
-    getUser.findAll({ attributes: ['username', 'email', 'password', 'phone_number']})
-        .then(users =>{
-            res.send(users);
-        })
-        .catch(err => {
-            console.log(err);
-        })
-});
-
-
 
 router.get('/all_users_orm', async function(req, res){
-    getUsers.findAll({attributes: ['id','username', 'email', 'password', 'phone_number']})
+    getUser.findAll({attributes: ['id','name']})
     .then(users =>{
       res.send(users)
     })
@@ -184,7 +173,7 @@ router.get('/all_users_orm', async function(req, res){
   router.delete('/delete_user_orm', async function(req, res){
   let id = req.query.id;
   console.log("id:" + req.query.id);
-   getUsers.destroy({
+   getUser.destroy({
     where: {
       id: id
     }
@@ -201,7 +190,7 @@ router.get('/all_users_orm', async function(req, res){
   router.put('/update_user_orm', async function(req,res){
     let id= req.query.id;
     let newDatas=req.query;
-    getUsers.findOne({where:{id:id}})
+    getUser.findOne({where:{id:id}})
     .then((r) => {
       r.update(newDatas)
       _success(req, res, r, 200);
@@ -213,23 +202,21 @@ router.get('/all_users_orm', async function(req, res){
     });
   })
   
-  router.post('/register_user_orm',async function(req,res){
-    getUsers.create({
-      id: req.query.id,
-    username: req.query.username,
-    email:req.query.email,
-     password:req.query.password,
-     phone_number: req.query.phone_number
-  
-    })    .then((r) => {
+  router.post('/register_user_orm', async function(req,res){
+    getUser.create({
+        id: req.query.id,
+        username: req.query.username,
+        email:req.query.email,
+        password:req.query.password,
+        phone_number: req.query.phone_number
+    })  .then((r) => {
       _success(req, res, r, 200);
       console.log('simon')
     })
     .catch((e) => {
       _success(req, res, e, 400);
     });
-  
-    })
+    });
 
 
 export default router;
